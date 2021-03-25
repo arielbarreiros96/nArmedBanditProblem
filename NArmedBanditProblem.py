@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import utils.data_utils as dataUtils
 from banditMachine.banditArm import BanditArm
 from banditMachine import nArmedMachine as bM
 
@@ -8,15 +9,17 @@ def main():
 
     # Creación de los brazos
     cantidad_de_brazos = 10
+    desviacion_estandar = 1
+    desviacion_de_la_media = 5
     arms = []
     for i in range(cantidad_de_brazos):
-        arms.append(BanditArm("Arm_" + str(i), (i + np.random.uniform(0, 1)), np.random.uniform(0, 1)))
+        arms.append(BanditArm("Arm_" + str(i), (i + np.random.uniform(0, desviacion_de_la_media)), np.random.uniform(0, desviacion_estandar)))
 
     # Adición de los brazos a la máquina
     bandit_machine = bM.NArmedMachine(arms)
 
     # Órden de aprendizaje
-    iteraciones = 3000
+    iteraciones = 40000
     bandit_machine.find_best_arm(iteraciones, 0.1)
 
     # Gráfica del comportamiento de los q_values de cada brazo
@@ -37,6 +40,20 @@ def main():
         legend_plot_2.append(bandit_machine.get_arm(i).get_arm_id())
         plt.plot(data)
     plt.legend(legend_plot_2)
+    plt.show()
+
+    # Gráfica de las frecuencia de las recompensas entregadas por cada brazo en las oportunidades que fueron
+    # seleccionados, en forma de campana de gauss
+    plt.figure(3)
+    legend_plot_3 = []
+    for i in range(len(arms)):
+        data = bandit_machine.get_arm(i).get_reward_history()
+        legend_plot_3.append(bandit_machine.get_arm(i).get_arm_id())
+        (x, y) = dataUtils.get_data_pair_for_plotting(data, 2)
+        # Este plot también puede ser de tipo scatter
+        # plt.scatter(x, y)
+        plt.plot(x, y)
+    plt.legend(legend_plot_3)
     plt.show()
 
 
