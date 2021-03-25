@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import utils.data_utils as dataUtils
+import utils.dataUtils as dataUtils
 from banditMachine.banditArm import BanditArm
-from banditMachine import nArmedMachine as bM
+from banditMachine import nArmedMachine as banditMachine
+
+__author__ = "Ariel Barreiros and Richar Sosa"
+__status__ = "Development"
 
 
 def main():
@@ -16,7 +19,7 @@ def main():
         arms.append(BanditArm("Arm_" + str(i), (i + np.random.uniform(0, desviacion_de_la_media)), np.random.uniform(0, desviacion_estandar)))
 
     # Adición de los brazos a la máquina
-    bandit_machine = bM.NArmedMachine(arms)
+    bandit_machine = banditMachine.NArmedMachine(arms)
 
     # Órden de aprendizaje
     iteraciones = 40000

@@ -1,6 +1,9 @@
 import numpy as np
 from q_learning import q_learning_policies as lp
 
+__author__ = "Ariel Barreiros and Richar Sosa"
+__status__ = "Development"
+
 
 class NArmedMachine:
     """
